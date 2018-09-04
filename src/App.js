@@ -1,31 +1,30 @@
 import React, { Component } from 'react';
 import './App.css';
-import { getCms } from './cms';
+import { CMS } from './cms';
 
 class App extends Component {
-  
+
   constructor(props) {
     super(props);
-    this.state = {
-      title: ''
+    this.data = {
+        title: 'CMS Example',
+        description: 'This is an example app of cms',
+        firstName: 'Andichamy',
+        lastName: 'Gurusamy'
     };
   }
 
   componentDidMount() {
-    console.log('this is from component did mount');
-    
-    // getCms().then((data) => {
-    //   console.log(data);
-    //   this.setState(()=>({
-    //       title: data.title
-    //   }));
-    // });
-
-    console.log(getCms());
-
+    CMS.route(this, 'dtvnow');
   }
 
   render() {
+    const {
+      title,
+      description,
+      firstName,
+      lastName
+    } = CMS.get(this.data, 'dtvnow');
     return (
       <div className="App">
         <header className="App-header">
@@ -35,7 +34,10 @@ class App extends Component {
           This information is coming from a cms file
         </p>
         <p>
-          {this.state.title}
+          Title is: {title} <br/>
+          Description is: {description} <br/>
+          First Name is: {firstName} <br/>
+          Last Name is: {lastName} <br/>
         </p>
       </div>
     );

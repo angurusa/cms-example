@@ -11,13 +11,13 @@ const data = {
     content: 'This is an example app of cms',
     firstName: 'Andichamy',
     lastName: 'Gurusamy'
-}
+};
 
 app.get('/cms', (req, res) => {
     console.log('GET: received cms data');
     setTimeout(() => {
         res.send(data);
-    }, 2000);
+    }, 3000);
 });
 
 app.listen(8080, () => console.log('Server started at port 8080!!!'));

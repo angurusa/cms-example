@@ -1,33 +1,61 @@
 import axios from 'axios';
 import localforage from 'localforage';
 
-export const getCms = async() => {
-
-    const data = await Promise.race([getCmsIndex(), getCmsNetwork()]);
-    console.log(data);
-    return data;
-};
-
-const getCmsNetwork = () => {
-    return axios.get('http://localhost:8080/cms').then(result => {
-        console.log(result.data);
-        return result.data;
-    });
-}
-
-const getCmsIndex = () => {
-    return localforage.getItem('cms').then(value => {
-        // This code runs once the value has been loaded
-        // from the offline store.
-        console.log(value);
-        if (value) {
-            return value;
-        } else {
-            console.log('value is undefined');
-        }
-    })
-}
-
 export class CMS {
+
+    static cms;
+
+    static route(component, contentName) {
+        return CMS.getInstance()._route(component, contentName);
+    }
+
+    static get(localData, contentName) {
+        return CMS.getInstance()._get(localData, contentName);
+    }
     
+    static getInstance() {
+        if (!CMS.cms) {
+            CMS.cms = new CMS();
+        }
+        
+        return CMS.cms;
+    }
+
+    constructor() {
+        this.content = {};
+    }
+
+    _route(component, contentName) {
+
+        localforage.getItem('cms').then(value => {
+            if (value) {
+                this.content = value;
+                component.forceUpdate();
+            } else {
+                console.log('value is undefined');
+            }
+        });
+
+        axios.get('http://localhost:8080/cms').then(result => {
+            this.content = result.data;
+            localforage.setItem('cms', result.data);
+            component.forceUpdate();
+        });
+
+    }
+
+    _get(localData, contentName) {
+        let content = {};
+        
+        // if (localData) {
+        //     content = localData;
+        // }
+
+        if (Object.keys(this.content).length) {
+            content = this.content;
+        }
+
+        return content;
+    }
+
 }
