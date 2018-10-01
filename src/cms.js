@@ -23,6 +23,9 @@ export class CMS {
 
     constructor() {
         this.content = {};
+        localforage.config({
+            driver      : localforage.LOCALSTORAGE,
+        });
     }
 
     _route(component, contentName) {
@@ -51,7 +54,9 @@ export class CMS {
         //     content = localData;
         // }
 
-        if (Object.keys(this.content).length) {
+        if (!Object.keys(this.content).length) {
+            content = localData;            
+        } else {
             content = this.content;
         }
 

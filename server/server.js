@@ -7,9 +7,9 @@ app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(bodyParser.json());
 
 const data = {
-    title: 'CMS Example',
-    content: 'This is an example app of cms',
-    firstName: 'Andichamy',
+    title: 'CMS Andichamy andichamy andcg',
+    description: 'This is an example app of cms',
+    firstName: 'Andichamy - Modified name',
     lastName: 'Gurusamy'
 };
 
